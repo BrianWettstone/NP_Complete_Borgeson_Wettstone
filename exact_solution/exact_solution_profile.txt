@@ -1,0 +1,43 @@
+9500
+1 T
+2 T
+3 F
+4 F
+5 F
+6 F
+7 T
+8 T
+9 T
+10 T
+11 T
+Wrote profile results to exact_solution.py.lprof
+Timer unit: 1e-06 s
+
+Total time: 15.2664 s
+File: exact_solution.py
+Function: main at line 14
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    14                                           @profile
+    15                                           def main():
+    16         1         36.0     36.0      0.0    n, m = tuple([int(x) for x in input().split(" ")])
+    17         1          0.0      0.0      0.0    sentence = []
+    18     10000       2695.0      0.3      0.0    for c in range(m):
+    19     10000       2333.0      0.2      0.0      clause = []
+    20     30000      42691.0      1.4      0.3      for x in [int(x) for x in input().split(" ")]:
+    21     16500       4070.0      0.2      0.0        if x < 0:
+    22     16500       8755.0      0.5      0.1          clause.append((False, -x))
+    23                                                 else:
+    24     13500       6198.0      0.5      0.0          clause.append((True, x))
+    25     10000       3667.0      0.4      0.0      sentence.append(clause)
+    26         1        295.0    295.0      0.0    all_possible = list(p([True, False], repeat=n)) #it may be faster to not do this as a list
+    27         1   15195627.0 15195627.0     99.5    clause_counts = [countOfSentence(sentence, values) for values in all_possible]
+    28         1         31.0     31.0      0.0    max_3sat = max(clause_counts)
+    29         1          9.0      9.0      0.0    best_value_set = all_possible[clause_counts.index(max_3sat)]
+    30         1         12.0     12.0      0.0    print(max_3sat)
+    31         1          0.0      0.0      0.0    next = 1
+    32        11          3.0      0.3      0.0    for val in best_value_set:
+    33        11         12.0      1.1      0.0      print(next, "T" if val else "F")
+    34        11          6.0      0.5      0.0      next += 1
+

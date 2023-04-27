@@ -1,0 +1,79 @@
+9500
+1 T
+2 T
+3 F
+4 F
+5 F
+6 F
+7 F
+8 F
+9 T
+10 F
+11 F
+Wrote profile results to approximate_solution.py.lprof
+Timer unit: 1e-06 s
+
+Total time: 1.69032 s
+File: approximate_solution.py
+Function: main at line 19
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    19                                           @profile
+    20                                           def main():
+    21         1         34.0     34.0      0.0      n, m = tuple([int(x) for x in input().split(" ")])
+    22         1          0.0      0.0      0.0      sentence = []
+    23     10000       2621.0      0.3      0.2      for c in range(m):
+    24     10000       2431.0      0.2      0.1          clause = []
+    25     30000      41366.0      1.4      2.4          for x in [int(x) for x in input().split(" ")]:
+    26     16500       4156.0      0.3      0.2              if x < 0:
+    27     16500       8259.0      0.5      0.5                  clause.append((False, -x))
+    28                                                       else:
+    29     13500       6530.0      0.5      0.4                  clause.append((True, x))
+    30     10000       4075.0      0.4      0.2          sentence.append(clause)
+    31                                           
+    32                                               # Here is where approximation deviates from exact soltuion
+    33                                               # Exact solution calcs all possible first, but approx uses randomization and hillclimbing
+    34                                               # Initialize the current best value set to a random boolean assignment of length n
+    35         1         29.0     29.0      0.0      best_value_set = [random.choice([True, False]) for _ in range(n)]
+    36                                           
+    37                                               # Eval count of satisfied clauses for the curr best value set
+    38         1       6896.0   6896.0      0.4      max_3sat = countOfSentence(sentence, best_value_set)
+    39                                           
+    40                                               # Set the temperature to some high initial value
+    41                                               # Set the cooling factor something less than 1
+    42         1          0.0      0.0      0.0      temperature = 100.0
+    43         1          0.0      0.0      0.0      cooling = 0.95
+    44                                           
+    45                                               # Iterate until the temperature falls below .001
+    46       225        163.0      0.7      0.0      while temperature > 0.001:
+    47                                                   # Select a random neighbor value set by flipping the value of a random variable in the current best value set
+    48       225        469.0      2.1      0.0          neighbor_value_set = list(best_value_set)
+    49                                           
+    50                                                   # The largest speed bottleneck is generating a random int
+    51       225       2522.0     11.2      0.1          flip_index = random.randint(0, n-1)
+    52       225        197.0      0.9      0.0          neighbor_value_set[flip_index] = not neighbor_value_set[flip_index]
+    53                                           
+    54                                                   # Eval the count of satisfied clauses for the neighbor value set
+    55       225    1608301.0   7148.0     95.1          neighbor_count = countOfSentence(sentence, neighbor_value_set)
+    56                                           
+    57                                                   # If neighbor val higher, neighbor is now best
+    58       222        299.0      1.3      0.0          if neighbor_count > max_3sat:
+    59         3          0.0      0.0      0.0              best_value_set = neighbor_value_set
+    60         3          2.0      0.7      0.0              max_3sat = neighbor_count
+    61                                           
+    62                                                   # else, accept the neighbor set with probability
+    63                                                   else:
+    64       222       1219.0      5.5      0.1              prob = math.exp((neighbor_count - max_3sat) / temperature)
+    65       159        335.0      2.1      0.0              if random.random() < prob:
+    66       159        119.0      0.7      0.0                  best_value_set = neighbor_value_set
+    67       159         49.0      0.3      0.0                  max_3sat = neighbor_count
+    68                                           
+    69       225        212.0      0.9      0.0          temperature *= cooling
+    70                                           
+    71         1         14.0     14.0      0.0      print(max_3sat)
+    72         1          0.0      0.0      0.0      next = 1
+    73        11          1.0      0.1      0.0      for val in best_value_set:
+    74        11         15.0      1.4      0.0          print(next, "T" if val else "F")
+    75        11          5.0      0.5      0.0          next += 1
+

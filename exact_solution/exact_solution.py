@@ -11,7 +11,7 @@ def truthOfClause(c, values): #helper
         return True
     return False
 
-
+# @profile
 def main():
   n, m = tuple([int(x) for x in input().split(" ")])
   sentence = []
