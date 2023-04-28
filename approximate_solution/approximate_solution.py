@@ -63,11 +63,12 @@ def main():
 
         # else, accept the neighbor set with probability
         else:
+            # prob is used to determine whether or not to accept the neighboring value set
+            # as the new best value set. As temp decreases prob of accepting decreases
             prob = math.exp((neighbor_count - max_3sat) / temperature)
             if random.random() < prob:
                 best_value_set = neighbor_value_set
                 max_3sat = neighbor_count
-
         temperature *= cooling
 
     print(max_3sat)
