@@ -1,6 +1,7 @@
 import random
 import math
 
+
 def countOfSentence(sentence, values):
     count = 0
     for c in sentence:
@@ -48,7 +49,8 @@ def main():
         neighbor_value_set = list(best_value_set)
 
         # The largest speed bottleneck is generating a random int
-        flip_index = random.randint(0, n-1)
+        # *This is true for small graphs*
+        flip_index = random.randint(0, n - 1)
         neighbor_value_set[flip_index] = not neighbor_value_set[flip_index]
 
         # Eval the count of satisfied clauses for the neighbor value set
@@ -73,6 +75,7 @@ def main():
     for val in best_value_set:
         print(next, "T" if val else "F")
         next += 1
+
 
 if __name__ == "__main__":
     main()
