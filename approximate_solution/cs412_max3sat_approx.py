@@ -1,6 +1,7 @@
 import random
 import math
 
+# Solution using simulated annealing
 
 def countOfSentence(sentence, values):
     count = 0
@@ -69,6 +70,8 @@ def main():
             if random.random() < prob:
                 best_value_set = neighbor_value_set
                 max_3sat = neighbor_count
+
+        # Geometric reduction
         temperature *= cooling
 
     print(max_3sat)
