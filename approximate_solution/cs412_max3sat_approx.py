@@ -42,7 +42,7 @@ def main():
     # Set the temperature to some high initial value
     # Set the cooling factor something less than 1
     temperature = 100.0
-    cooling = 0.95
+    cooling = .95
 
     # Iterate until the temperature falls below .001
     while temperature > 0.001:
@@ -74,11 +74,17 @@ def main():
         # Geometric reduction
         temperature *= cooling
 
+        # Testing Linear Reduction Rule
+        # temperature -= cooling
+
+        # Testing Slow-Decrease Rule. 7(beta) is an arbitrary constant
+        # temperature = temperature // (1 + (7 * temperature))
+
     print(max_3sat)
     next = 1
-    for val in best_value_set:
-        print(next, "T" if val else "F")
-        next += 1
+    # for val in best_value_set:
+    #     print(next, "T" if val else "F")
+    #     next += 1
 
 
 if __name__ == "__main__":
