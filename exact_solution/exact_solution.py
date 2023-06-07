@@ -40,6 +40,6 @@ def main():
   for val in best_value_set:
     print(next, "T" if val else "F")
     next += 1
-
+#cookie
 if __name__ == "__main__":
   main()
